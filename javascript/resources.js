@@ -1,0 +1,1 @@
+system.getResource("/root.txt");

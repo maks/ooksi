@@ -1,0 +1,14 @@
+
+* refactor XMLHttpRequest to match std browser XHR API @done
+* access midp app properties @done
+* add simpe api for JS for MIDPs storage
+* add KUI components JS API
+* add drawImg to API @done
+* add File IO to API
+* build kui UI declaratively from xml files
+* UnitTests for core js and added functions
+* ANT build script, seperate out midp and se MjC builds
+* ANT build script for compiling js files into midlet jars
+* Test App to Read and eval js OTA from url
+* web mini IDE to test js with emulator applet
+* compile & build jars with web ide

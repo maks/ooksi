@@ -1,0 +1,23 @@
+canvas draw img api:
+
+can get image objects on page via document.images collection
+or document.getElementByTagName or getElementById
+
+can use other canvas's as image src
+
+making new obj:
+
+var img = new Image();
+img.src = "test.png"; //can be jpeg or gif
+
+this will pause until image loaded so can also:
+
+var img = new Image();
+img.onload() = function() { //do drawImg in this callback  };
+img.src = "test.png"; //can be jpeg or gif
+
+(methods on 2d context)
+drawImage(image, x, y)
+drawImage(image, x, y, width, height)
+drawImage(image, sx, sy,sWidth, sHeight, dx, dy, dWidth, dHeight)
+ 
