@@ -98,7 +98,7 @@ public class Runner extends OoksiMIDlet implements CommandListener {
 		}
 	}
 
-	public KItem initStartDisplay() {
+	public Object initStartDisplay() {
 		return applicationList;
 	}
 }

@@ -38,7 +38,7 @@ public class Canvas2D extends Canvas {
 	/** Draws the canvas image. */
 	public void paint(Graphics g) {
 		synchronized (env.getEventLock()) {
-			System.out.println("kalacanvas2d doing paint");
+			System.out.println("ooksi canvas2d doing paint");
 			g.drawImage(canvas, 0, 0, Graphics.TOP | Graphics.LEFT);
 		}
 	}

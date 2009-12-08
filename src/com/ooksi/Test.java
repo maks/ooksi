@@ -93,7 +93,7 @@ public class Test extends OoksiMIDlet implements CommandListener {
 		}
 	}
 
-	public KItem initStartDisplay() {
+	public Object initStartDisplay() {
 		//TODO
 		return textBox;
 	}

@@ -33,10 +33,6 @@ import javax.microedition.lcdui.List;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
-import org.kobjects.kui.KDisplay;
-import org.kobjects.kui.KForm;
-import org.kobjects.kui.KItem;
-import org.kobjects.kui.KList;
 import org.kobjects.utils4me.Registry;
 
 import com.google.minijoe.compiler.CompilerException;
@@ -136,7 +132,7 @@ public class WebRunner extends OoksiMIDlet implements CommandListener {
 				new Thread(env).start();
 			} else {
 				String jsSrcText = MIDPUtils.readFileAsText(appname);
-				System.out.println("running js:" + jsSrcText);
+				System.out.println("running js:...");// + jsSrcText);
 				Eval.eval(jsSrcText, env);
 				new Thread(env).start();
 			}
@@ -150,7 +146,7 @@ public class WebRunner extends OoksiMIDlet implements CommandListener {
 
 	}
 
-	public KItem initStartDisplay() {
+	public Object initStartDisplay() {
 		execJs(kalaInitApp);
 		return null;
 	}

@@ -6,6 +6,6 @@ import org.kobjects.kui.KItem;
 
 public abstract class OoksiMIDlet extends MIDlet {
 	
-	public abstract KItem initStartDisplay();
+	public abstract Object initStartDisplay();
 
 }

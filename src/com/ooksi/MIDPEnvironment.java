@@ -21,9 +21,6 @@ import javax.microedition.lcdui.AlertType;
 import javax.microedition.lcdui.Canvas;
 import javax.microedition.lcdui.Display;
 
-import org.kobjects.kui.KDisplay;
-
-import com.google.minijoe.samples.runtime.Context2D;
 import com.google.minijoe.sys.JsArray;
 import com.google.minijoe.sys.JsFunction;
 import com.google.minijoe.sys.JsObject;
@@ -155,6 +152,7 @@ static final int ID_GET_ELEMENT_BY_ID = 1000;
       case ID_ALERT:
     	  UI.getUI(this.midlet, this).alert(stack.getString(sp + 2));
           break;
+          
       case ID_QUIT_JS:
     	  this.midlet.notifyDestroyed();
           break;
