@@ -53,7 +53,6 @@ static final int ID_GET_ELEMENT_BY_ID = 1000;
    */
   Vector schedule = new Vector();
   Canvas2D screen;
-  //Canvas2D screen;
   OoksiMIDlet midlet;
   static int timerId;
   JsArray stack = new JsArray();
@@ -83,8 +82,7 @@ static final int ID_GET_ELEMENT_BY_ID = 1000;
     
     addVar("system", new MIDPJsObject(midlet));
 	
-    //addVar("XMLHttpRequest", XMLHttpRequest.getJsConstructor(this.midlet, this));
-	addVar("XMLHttpRequest", 
+    addVar("XMLHttpRequest", 
 			new JsFunction(OoksiJsFactory.getFactory(this),
 					OoksiJsFactory.KALA_XHR_TYPE,
 					JsObject.OBJECT_PROTOTYPE,
@@ -213,7 +211,7 @@ static final int ID_GET_ELEMENT_BY_ID = 1000;
     try {
       while (!stop) {
         if (schedule.size() == 0) {
-          synchronized (this.midlet) {
+          synchronized (eventLock) {
             this.midlet.wait(20);
           }
           continue;
@@ -226,7 +224,7 @@ static final int ID_GET_ELEMENT_BY_ID = 1000;
         }
         long time = ((Long) next[1]).longValue();
         JsFunction call = (JsFunction) next[2];
-        synchronized (this.midlet) {
+        synchronized (eventLock) {
           this.midlet.wait (Math.max(5, time - System.currentTimeMillis()));
           stack.setObject(1, this);
           stack.setObject(2, call);
@@ -240,10 +238,6 @@ static final int ID_GET_ELEMENT_BY_ID = 1000;
     } catch (Exception e) {
       exit (e);
     }
-  }
-  
-  public void rePaint() {
-	  
   }
   
   /**
@@ -272,7 +266,7 @@ static final int ID_GET_ELEMENT_BY_ID = 1000;
     }
    
     event.addVar("keyCode", new Double(code));
-    synchronized (this.midlet) {
+    synchronized (eventLock) {
       stack.setObject(1, this);
       stack.setObject(2, f);
       stack.setObject(3, event);

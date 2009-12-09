@@ -47,8 +47,8 @@ import com.sun.midp.publickeystore.WebPublicKeyStore;
  * Client to execute js code (src or compiled) downloaded from a webservice.
  * Expected api of webservice:
  * 
- * /kala/list  - list all avilable apps in csv format of ID, Name, TypeFlag (c or s)
- * /kala/apps/ID/code  - the app code in either src or compiled form 
+ * /kala/list - list all avilable apps in csv format of ID, Name, TypeFlag (c or
+ * s) /kala/apps/ID/code - the app code in either src or compiled form
  * 
  * @author Maksim Lin
  */
@@ -70,10 +70,10 @@ public class WebRunner extends OoksiMIDlet implements CommandListener {
 	}
 
 	public void startApp() throws MIDletStateChangeException {
-		
+
 		try {
 			String initAppName = Registry.get("init", "missing");
-			System.out.println("Init is:"+initAppName);
+			System.out.println("Init is:" + initAppName);
 			execJs(initAppName);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -82,42 +82,11 @@ public class WebRunner extends OoksiMIDlet implements CommandListener {
 	}
 
 	public void commandAction(Command cmd, Displayable d) {
-//		if (cmd == CMD_EXIT) {
-//			notifyDestroyed();
-//		} else {
-//			int appNum = applicationList.getSelectedIndex();
-//			MIDPEnvironment env = new MIDPEnvironment(this);
-//			env.screen.setFullScreenMode(true);
-//
-//			Display.getDisplay(this).setCurrent(env.screen);
-
-//			AppData selectedApp = ((AppData) this.apps.elementAt(appNum));
-//
-//			System.out.println("selected app:" + selectedApp.getName()
-//					+ selectedApp.compiled);
-//
-//			try {
-//				if (selectedApp.compiled) {
-//					JsFunction.exec(new DataInputStream(selectedApp
-//							.codeAsStream()), env);
-//					new Thread(env).start();
-//				} else {
-//					String script = selectedApp.codeAsString();
-//					System.out.println("exec:" + script);
-//					Eval.eval(script, env);
-//					new Thread(env).start();
-//				}
-//
-//			} catch (IOException e) {
-//				throw new RuntimeException(e.toString());
-//			} catch (CompilerException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-
-//		}
+		if (cmd == CMD_EXIT) {
+			notifyDestroyed();
+		}
 	}
-	
+
 	private void execJs(String appname) {
 		MIDPEnvironment env = new MIDPEnvironment(this);
 		env.screen.setFullScreenMode(true);
@@ -125,18 +94,15 @@ public class WebRunner extends OoksiMIDlet implements CommandListener {
 		Display.getDisplay(this).setCurrent(env.screen);
 
 		try {
+			System.out.println("running " + appname + ":...");
 			if (appname.endsWith(".mjc")) {
-				JsFunction.exec(
-						new DataInputStream(getClass().getResourceAsStream(appname)), 
-						env);
-				new Thread(env).start();
+				JsFunction.exec(new DataInputStream(getClass()
+						.getResourceAsStream("/" + appname)), env);
 			} else {
 				String jsSrcText = MIDPUtils.readFileAsText(appname);
-				System.out.println("running js:...");// + jsSrcText);
 				Eval.eval(jsSrcText, env);
-				new Thread(env).start();
 			}
-
+			new Thread(env).start();
 		} catch (IOException e) {
 			throw new RuntimeException(e.toString());
 		} catch (CompilerException e) {
