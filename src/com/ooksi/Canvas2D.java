@@ -32,20 +32,21 @@ public class Canvas2D extends Canvas {
 
 	public Canvas2D(MIDPEnvironment env) {
 		this.env = env;
+	    setFullScreenMode(true);
 		canvas = Image.createImage(getWidth(), getHeight());
 	}
 
 	/** Draws the canvas image. */
 	public void paint(Graphics g) {
-		synchronized (env.getEventLock()) {
-			System.out.println("ooksi canvas2d doing paint");
+		synchronized (env.eventLock) {			
 			g.drawImage(canvas, 0, 0, Graphics.TOP | Graphics.LEFT);
+			System.out.println("ooksi canvas2d finished paint");
 		}
 	}
 
-	public Image getCanvas() {
-		return canvas;
-	}
+//	public Image getCanvas() {
+//		return canvas;
+//	}
 
 	/**
 	 * If the key is a "typical" softkey code, the application is terminated.

@@ -36,10 +36,10 @@ public class OoksiJsFactory implements JsObjectFactory {
 		switch(type){
 	      case KALA_XHR_TYPE: 
 	    	  return new XMLHttpRequestObject(environment.getCallbackScope(), 
-	    			  environment.getEventLock());
+	    			  this);
 	      case KALA_IMAGE_TYPE:
 	    	  return new ImageObject(environment.getCallbackScope(), 
-	    			  environment.getEventLock(),
+	    			  this,
 	    			  environment.getCanvas());
 	      default:
 	        throw new IllegalArgumentException();

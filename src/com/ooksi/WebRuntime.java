@@ -52,13 +52,13 @@ import com.sun.midp.publickeystore.WebPublicKeyStore;
  * 
  * @author Maksim Lin
  */
-public class WebRunner extends OoksiMIDlet implements CommandListener {
+public class WebRuntime extends OoksiMIDlet implements CommandListener {
 
 	static final Command CMD_EXIT = new Command("Exit", Command.EXIT, 1);
 	static AppList apps;
 	static String kalaInitApp;
 
-	public WebRunner() {
+	public WebRuntime() {
 
 	}
 
@@ -89,7 +89,6 @@ public class WebRunner extends OoksiMIDlet implements CommandListener {
 
 	private void execJs(String appname) {
 		MIDPEnvironment env = new MIDPEnvironment(this);
-		env.screen.setFullScreenMode(true);
 
 		Display.getDisplay(this).setCurrent(env.screen);
 
@@ -97,13 +96,14 @@ public class WebRunner extends OoksiMIDlet implements CommandListener {
 			System.out.println("running " + appname + ":...");
 			if (appname.endsWith(".mjc")) {
 				JsFunction.exec(new DataInputStream(getClass()
-						.getResourceAsStream("/" + appname)), env);
+						.getResourceAsStream(appname)), env);
 			} else {
 				String jsSrcText = MIDPUtils.readFileAsText(appname);
 				Eval.eval(jsSrcText, env);
 			}
 			new Thread(env).start();
 		} catch (IOException e) {
+			System.out.println("ERR:"+e.toString());
 			throw new RuntimeException(e.toString());
 		} catch (CompilerException e) {
 			// TODO Auto-generated catch block

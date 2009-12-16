@@ -108,9 +108,6 @@ static final int ID_GET_ELEMENT_BY_ID = 1000;
     stack.setObject(0, this);
   }
   
-  public Object getEventLock() {
-	  return this.eventLock;
-  }
   
   public JsObject getCallbackScope() {
 	  return this;
@@ -134,7 +131,7 @@ static final int ID_GET_ELEMENT_BY_ID = 1000;
         break;
         
       case ID_GET_CONTEXT:
-        stack.setObject(sp, new Context2D(screen.getCanvas().getGraphics()));
+        stack.setObject(sp, new Context2D(screen.canvas.getGraphics()));
         break;
         
       case ID_SET_TIMEOUT:
@@ -209,14 +206,14 @@ static final int ID_GET_ELEMENT_BY_ID = 1000;
    */
   public void run() {
     try {
+      screen.repaint();	//do any pending paints
       while (!stop) {
         if (schedule.size() == 0) {
-          synchronized (eventLock) {
-            this.midlet.wait(20);
-          }
-          continue;
+        	synchronized (eventLock) {
+				eventLock.wait(20);
+			}
+			continue;
         }
-        
         Object[] next;
         synchronized (schedule) {
           next = (Object[]) schedule.elementAt(0);
@@ -225,7 +222,7 @@ static final int ID_GET_ELEMENT_BY_ID = 1000;
         long time = ((Long) next[1]).longValue();
         JsFunction call = (JsFunction) next[2];
         synchronized (eventLock) {
-          this.midlet.wait (Math.max(5, time - System.currentTimeMillis()));
+          eventLock.wait (Math.max(5, time - System.currentTimeMillis()));
           stack.setObject(1, this);
           stack.setObject(2, call);
           call.eval(stack, 1, 0);
