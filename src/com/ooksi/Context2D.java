@@ -319,7 +319,19 @@ public class Context2D extends JsObject {
             	} else if (stack.isNumber(sp+7) && stack.isNumber(sp+8) &&
             			stack.isNumber(sp+9) && stack.isNumber(sp+10)) {
             		//call for drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
-            		
+            		int sx = (int)stack.getNumber(sp + 3);
+        	        int sy = (int)stack.getNumber(sp + 4);
+        	        int sw = (int)stack.getNumber(sp + 5);
+        	        int sh = (int)stack.getNumber(sp + 6);
+        	        
+        	        int dx = (int)stack.getNumber(sp + 7);
+        	        int dy = (int)stack.getNumber(sp + 8);
+        	        int dw = (int)stack.getNumber(sp + 9);
+        	        int dh = (int)stack.getNumber(sp + 10);
+        	        
+        	        imgObj.drawToMidpCanvas(graphics, 
+        	        		sx, sy, sw, sh,
+        	        		dx, dy, dw, dh);
             	}        		
         	} 
     	} else {

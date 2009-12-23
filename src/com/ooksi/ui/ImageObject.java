@@ -26,7 +26,6 @@ public class ImageObject extends JsObject implements HTTPResultListener {
 
 	public static final int ID_INIT_IMAGE = 2001;
 	private static final int ID_FROM_BYTES = 2002;
-	private static final int ID_CROP = 2003;
 
 	public ImageObject(JsObject scope, Object lock, Canvas2D canvas) {
 		super(IMAGE_PROTOTYPE);
@@ -36,7 +35,6 @@ public class ImageObject extends JsObject implements HTTPResultListener {
 		this.canvas = canvas;
 
 		addNative("fromBytes", ID_FROM_BYTES, 1);
-		addNative("crop", ID_CROP, 5);
 		addVar("onLoad", null);
 		addVar("src", null);
 	}
@@ -51,40 +49,38 @@ public class ImageObject extends JsObject implements HTTPResultListener {
 			byte[] imgData = ((byte[]) stack.getObject(sp + 2));
 			midpImage = Image.createImage(imgData, 0, imgData.length);
 			break;
-		case ID_CROP:
-			int x = stack.getInt(sp + 2);
-			int y = stack.getInt(sp + 3);
-			int width = stack.getInt(sp + 4);
-			int height = stack.getInt(sp + 5);
-			// int transform = stack.getInt(sp+6);
-			int transform = Sprite.TRANS_NONE;
-
-			ImageObject img = new ImageObject(null,	null, this.canvas);//FIXME: need to set callback & lock?
-			img.midpImage = Image.createImage(this.midpImage, x, y, width,
-					height, transform);
-
-			stack.setObject(sp, img); // return cropped img as jsobject
-			break;
 		default:
 			super.evalNative(index, stack, sp, parCount);
 		}
+	}
+	
+	private Image getCropped(int x, int y, int width, int height) {
+		return Image.createImage(this.midpImage, x, y, width,
+				height, Sprite.TRANS_NONE);
 	}
 
 	public Image getMidpImage() {
 		return this.midpImage;
 	}
 
-	public static Image scaleImage(Image img, int width, int height) {
+	private Image scaleImage(Image img, int width, int height) {
 		// TODO: need simple scaling impl
 		return img;
 	}
 
+	/**
+	 * Draw to underlying canvas
+	 * @param graphics
+	 * @param x
+	 * @param y
+	 */
 	public void drawToMidpCanvas(Graphics graphics, int x, int y) {
 		graphics.drawImage(this.midpImage, x, y, Graphics.TOP | Graphics.LEFT);
 		canvas.repaint();
 	}
 
 	/**
+	 * Draw to underlying canvas with cropping
 	 * 
 	 * @param graphics
 	 * @param sx
@@ -96,23 +92,24 @@ public class ImageObject extends JsObject implements HTTPResultListener {
 	 * @param dWidth
 	 * @param dHeight
 	 */
-	public void drawToMidpCanvas(Graphics graphics, int sx, int sy, int sWidth,
-			int sHeight, int dx, int dy, int dWidth, int dHeight) {
+	public void drawToMidpCanvas(Graphics graphics, 
+			int sx, int sy, int sWidth, int sHeight, 
+			int dx, int dy, int dWidth, int dHeight) {
 		if (this.midpImage == null) {
 			// FIXME: throw exception?
 			return;
 		}
 		sWidth = sWidth != 0 ? sWidth : this.midpImage.getWidth();
 		sHeight = sHeight != 0 ? sHeight : this.midpImage.getHeight();
-
-		// graphics.drawImage(this.midpImage, 0, 0,
-		// Graphics.TOP | Graphics.LEFT);
+		
 		Image currImage = this.midpImage;
 		if (dWidth != 0 || dHeight != 0) {
 			currImage = scaleImage(currImage, dWidth, dHeight);
 		}
+		
 		graphics.drawRegion(currImage, sx, sy, sWidth, sHeight,
 				Sprite.TRANS_NONE, dx, dy, Graphics.TOP | Graphics.LEFT);
+		canvas.repaint();
 	}
 
 	public String toString() {
