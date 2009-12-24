@@ -150,11 +150,15 @@ public class ImageObject extends JsObject implements HTTPResultListener {
 
 	private void loadImage(String url) {
 		System.out.println("loading img url:" + url);
-		try {
-			//TODO: add support for JSR-82 PIM API
+		try {			
 			if (url.length() > 0 && url.startsWith("file://")) {
-				String filename = url.substring("file://".length());
-				this.midpImage = Image.createImage(filename);
+				//TODO: add support for JSR-82 PIM API
+			} else if (url.length() > 0 && url.startsWith("http://")) {
+				// 1x1px placeholder until actual img loads from net
+				this.midpImage = Image.createImage(1, 1);
+				Http.fetchUrl(url, Http.GET, this);
+			} else {
+				this.midpImage = Image.createImage("/"+url); //append / as expect file in / of classpath
 				addVar("width", new Integer(this.midpImage.getWidth()));
 				addVar("height", new Integer(this.midpImage.getHeight()));
 				
@@ -164,10 +168,6 @@ public class ImageObject extends JsObject implements HTTPResultListener {
 				} else {
 					System.out.println("NO callback:");
 				}
-			} else if (url.length() > 0 && url.startsWith("http://")) {
-				// 1x1px placeholder until actual img loads from net
-				this.midpImage = Image.createImage(1, 1);
-				Http.fetchUrl(url, Http.GET, this);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
