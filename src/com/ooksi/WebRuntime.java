@@ -55,7 +55,6 @@ import com.sun.midp.publickeystore.WebPublicKeyStore;
 public class WebRuntime extends OoksiMIDlet implements CommandListener {
 
 	static final Command CMD_EXIT = new Command("Exit", Command.EXIT, 1);
-	static AppList apps;
 	static String kalaInitApp;
 
 	public WebRuntime() {

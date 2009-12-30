@@ -1,3 +1,6 @@
 var img = new Image();
-img.src = "file:///orca.png";
-UI.addImage(img);
+img.src = "orca.png";
+var canvas = document.getElementById("canvas");
+ctx = canvas.getContext("2d");
+
+ctx.drawImage(img, 0 , 0);
