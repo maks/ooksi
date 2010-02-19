@@ -54,8 +54,8 @@ import com.sun.perseus.model.Set;
  * Client to execute js code (src or compiled) downloaded from a webservice.
  * Expected api of webservice:
  * 
- * /kala/list - list all avilable apps in csv format of ID, Name, TypeFlag (c or
- * s) /kala/apps/ID/code - the app code in either src or compiled form
+ * .../list - list all avilable apps in csv format of ID, Name, TypeFlag (c or
+ * s) .../apps/ID/code - the app code in either src or compiled form
  * 
  * @author Maksim Lin
  */
