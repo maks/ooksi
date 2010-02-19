@@ -83,7 +83,7 @@ public class Context2D extends JsObject {
       .addNative("drawImage", ID_DRAW_IMAGE, 9)
       .addNative("restore", ID_RESTORE, 0)
       .addNative("textStyle", ID_TEXT_STYLE, -1)
-      .addNative("mozTextStyle", ID_TEXT_STYLE, -1)
+      .addNative("mozTextStyle", ID_TEXT_STYLE, 0)
       .addNative("clearRect", ID_CLEAR_RECT, 4)
       .addNative("arc", ID_ARC, 6)
       .addNative("bezierCurveTo", ID_BEZIER_CURVE_TO, 6)
@@ -359,6 +359,7 @@ public class Context2D extends JsObject {
         break;    
 
       case ID_TEXT_STYLE:
+    	  font = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_LARGE);
         break;
 
       case ID_TEXT_STYLE_SET:

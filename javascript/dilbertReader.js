@@ -20,6 +20,9 @@ function show(action){
     
     ctx.drawImage(strip, (OFFSETS[currentPage]), 0, CELL_WIDTH, CELL_HEIGHT,
     	0, 0, CELL_WIDTH, CELL_HEIGHT); 
+    
+    ctx.textBaseline = "bottom";
+    ctx.fillText("Next", 10, 240);
 }
 
 document.onkeydown = function(e) {

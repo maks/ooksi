@@ -28,7 +28,11 @@ import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
+import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Image;
+import javax.microedition.lcdui.ImageItem;
+import javax.microedition.lcdui.Item;
+import javax.microedition.lcdui.ItemCommandListener;
 import javax.microedition.lcdui.List;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
@@ -39,9 +43,12 @@ import com.google.minijoe.compiler.CompilerException;
 import com.google.minijoe.compiler.Eval;
 import com.google.minijoe.sys.JsArray;
 import com.google.minijoe.sys.JsFunction;
+import com.ooksi.apps.AppData;
+import com.ooksi.apps.AppList;
 import com.ooksi.net.HTTPResultListener;
 import com.ooksi.net.Http;
 import com.sun.midp.publickeystore.WebPublicKeyStore;
+import com.sun.perseus.model.Set;
 
 /**
  * Client to execute js code (src or compiled) downloaded from a webservice.
@@ -52,10 +59,13 @@ import com.sun.midp.publickeystore.WebPublicKeyStore;
  * 
  * @author Maksim Lin
  */
-public class WebRuntime extends OoksiMIDlet implements CommandListener {
+public class WebRuntime extends OoksiMIDlet 
+	implements CommandListener, ItemCommandListener {
 
 	static final Command CMD_EXIT = new Command("Exit", Command.EXIT, 1);
 	static String kalaInitApp;
+	static final AppList appStore = new AppList();
+	static final Hashtable installedApps = new Hashtable();
 
 	public WebRuntime() {
 
@@ -70,14 +80,42 @@ public class WebRuntime extends OoksiMIDlet implements CommandListener {
 
 	public void startApp() throws MIDletStateChangeException {
 
+		Form f = new Form("Ooksi Apps");
+		Image img = null;
 		try {
-			String initAppName = Registry.get("init", "missing");
-			System.out.println("Init is:" + initAppName);
-			execJs(initAppName);
-		} catch (Exception e) {
+			img = Image.createImage("/orca.png");
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//Enumeration apps = appList.keys();
+		while(apps.hasMoreElements()) {
+			//AppData = apps.nextElement()
+		
+		
+			ImageItem item = new ImageItem("App One", 
+					img, 
+					Item.LAYOUT_LEFT,
+					"app button",
+					Item.BUTTON);
+			
+			item.setDefaultCommand(new Command("run", Command.ITEM, 1));
+			item.setItemCommandListener(this);
+			
+			f.append(item);
+		
+		}
+		Display.getDisplay(this).setCurrent(f);
+
+		
+//		try {
+//			String initAppName = Registry.get("init", "missing");
+//			System.out.println("Init is:" + initAppName);
+//			execJs(initAppName);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	public void commandAction(Command cmd, Displayable d) {
@@ -114,5 +152,9 @@ public class WebRuntime extends OoksiMIDlet implements CommandListener {
 	public Object initStartDisplay() {
 		execJs(kalaInitApp);
 		return null;
+	}
+
+	public void commandAction(Command c, Item item) {
+		//execJs((String)appList.get(item.getLabel()));		
 	}
 }

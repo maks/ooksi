@@ -162,7 +162,7 @@ public class ImageObject extends JsObject implements HTTPResultListener {
 				addVar("width", new Integer(this.midpImage.getWidth()));
 				addVar("height", new Integer(this.midpImage.getHeight()));
 				
-				JsFunction onLoadCallBack = (JsFunction) this.getObject("onLoad");
+				JsFunction onLoadCallBack = (JsFunction) this.getObject("onload");
 				if (onLoadCallBack != null) {
 					doCallBack(onLoadCallBack);
 				} else {
