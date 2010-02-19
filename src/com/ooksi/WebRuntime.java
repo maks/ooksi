@@ -14,41 +14,23 @@
 
 package com.ooksi;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Vector;
 
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
-import javax.microedition.lcdui.Form;
-import javax.microedition.lcdui.Image;
-import javax.microedition.lcdui.ImageItem;
 import javax.microedition.lcdui.Item;
 import javax.microedition.lcdui.ItemCommandListener;
-import javax.microedition.lcdui.List;
-import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 import org.kobjects.utils4me.Registry;
 
 import com.google.minijoe.compiler.CompilerException;
 import com.google.minijoe.compiler.Eval;
-import com.google.minijoe.sys.JsArray;
 import com.google.minijoe.sys.JsFunction;
-import com.ooksi.apps.AppData;
-import com.ooksi.apps.AppList;
-import com.ooksi.net.HTTPResultListener;
-import com.ooksi.net.Http;
-import com.sun.midp.publickeystore.WebPublicKeyStore;
-import com.sun.perseus.model.Set;
 
 /**
  * Client to execute js code (src or compiled) downloaded from a webservice.
@@ -64,8 +46,6 @@ public class WebRuntime extends OoksiMIDlet
 
 	static final Command CMD_EXIT = new Command("Exit", Command.EXIT, 1);
 	static String initApp;
-	static final AppList apps = new AppList();
-	static final Hashtable installedApps = new Hashtable();
 
 	public WebRuntime() {
 
