@@ -63,8 +63,8 @@ public class WebRuntime extends OoksiMIDlet
 	implements CommandListener, ItemCommandListener {
 
 	static final Command CMD_EXIT = new Command("Exit", Command.EXIT, 1);
-	static String kalaInitApp;
-	static final AppList appStore = new AppList();
+	static String initApp;
+	static final AppList apps = new AppList();
 	static final Hashtable installedApps = new Hashtable();
 
 	public WebRuntime() {
@@ -80,42 +80,14 @@ public class WebRuntime extends OoksiMIDlet
 
 	public void startApp() throws MIDletStateChangeException {
 
-		Form f = new Form("Ooksi Apps");
-		Image img = null;
 		try {
-			img = Image.createImage("/orca.png");
-		} catch (IOException e) {
+			String initAppName = Registry.get("init", "missing");
+			System.out.println("Init is:" + initAppName);
+			execJs(initAppName);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//Enumeration apps = appList.keys();
-		while(apps.hasMoreElements()) {
-			//AppData = apps.nextElement()
-		
-		
-			ImageItem item = new ImageItem("App One", 
-					img, 
-					Item.LAYOUT_LEFT,
-					"app button",
-					Item.BUTTON);
-			
-			item.setDefaultCommand(new Command("run", Command.ITEM, 1));
-			item.setItemCommandListener(this);
-			
-			f.append(item);
-		
-		}
-		Display.getDisplay(this).setCurrent(f);
-
-		
-//		try {
-//			String initAppName = Registry.get("init", "missing");
-//			System.out.println("Init is:" + initAppName);
-//			execJs(initAppName);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
 
 	public void commandAction(Command cmd, Displayable d) {
@@ -150,7 +122,7 @@ public class WebRuntime extends OoksiMIDlet
 	}
 
 	public Object initStartDisplay() {
-		execJs(kalaInitApp);
+		execJs(initApp);
 		return null;
 	}
 
